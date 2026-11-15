@@ -14,7 +14,7 @@ class DotEnvTest {
     @Test
     void loadsKeysAndSkipsCommentsAndExisting(@TempDir Path dir) throws Exception {
         Path f = dir.resolve(".env");
-        Files.writeString(f, "# komentar\n\nDOTENV_A=1\nDOTENV_B=\"dua\"\nDOTENV_C='tiga'\nbaris-rusak\nDOTENV_D=4\nDOTENV_E=x\nDOTENV_F=\"abc\nPATH=diabaikan\n");
+        Files.writeString(f, "# komentar\n\nDOTENV_A=1\nDOTENV_B=\"dua\"\nDOTENV_C='tiga'\nbaris-rusak\nDOTENV_D=4\nDOTENV_E=x\nDOTENV_F=\"abc\nDOTENV_G='abc\nPATH=diabaikan\n");
         System.setProperty("DOTENV_D", "asli");
         try {
             DotEnv.load(f);
@@ -24,9 +24,10 @@ class DotEnvTest {
             assertEquals("asli", System.getProperty("DOTENV_D"));
             assertEquals("x", System.getProperty("DOTENV_E"));
             assertEquals("\"abc", System.getProperty("DOTENV_F"));
+            assertEquals("'abc", System.getProperty("DOTENV_G"));
             assertNotEquals("diabaikan", System.getProperty("PATH"));
         } finally {
-            for (String k : new String[] {"DOTENV_A", "DOTENV_B", "DOTENV_C", "DOTENV_D", "DOTENV_E", "DOTENV_F"}) System.clearProperty(k);
+            for (String k : new String[] {"DOTENV_A", "DOTENV_B", "DOTENV_C", "DOTENV_D", "DOTENV_E", "DOTENV_F", "DOTENV_G"}) System.clearProperty(k);
         }
     }
 

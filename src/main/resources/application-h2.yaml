@@ -1,0 +1,7 @@
+# Mode lokal tanpa PostgreSQL: .\mvnw.cmd spring-boot:run "-Dspring-boot.run.profiles=h2"
+spring:
+  datasource:
+    url: jdbc:h2:file:./data/cashflow;MODE=PostgreSQL;DB_CLOSE_DELAY=-1
+    username: sa
+    password: ""
+    driver-class-name: org.h2.Driver
